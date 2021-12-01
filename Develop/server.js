@@ -23,14 +23,16 @@ app.post("/api/notes",(req,res)=>{
     console.log('hello')
     const notes= JSON.parse(fs.readFileSync("./db/db.json"));
     const newNotes= req.body;
+    newNotes["id"]= Math.floor(Math.random() * 100000);
     notes.push(newNotes);
     fs.writeFileSync("./db/db.json", JSON.stringify(notes))
     res.json(notes);
 });
 
 app.delete("/api/notes/:id", (req,res)=>{
+    console.log('check',req.params.id)
     const notes=JSON.parse(fs.readFileSync("./db/db.json"));
-    const deleteNote= notes.filter((removeNote) => removeNote.id !== req.params.id);
+    const deleteNote= notes.filter((removeNote) => removeNote.id != req.params.id);
     fs.writeFileSync("./db/db.json", JSON.stringify(deleteNote));
     res.json(deleteNote);
 });
